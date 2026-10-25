@@ -19,7 +19,8 @@ source.include_exts = py,png,jpg,kv
 version = 1.0
 
 # (list) Application requirements
-requirements = python3,kivy,requests,opencv-python,numpy
+requirements = python3,kivy,requests,opencv,numpy
+
 
 # (str) Supported orientations
 orientation = portrait
