@@ -32,3 +32,6 @@ android.api = 33
 
 # (int) Minimum API your APK will support.
 android.minapi = 21
+
+# (bool) Automatically accept Android SDK license
+android.accept_sdk_license = True
