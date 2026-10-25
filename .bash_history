@@ -114,3 +114,20 @@ DISPLAY=:0 python auto_ui.py
 export DISPLAY=:0
 python auto_ui.py
 exit
+[200~Ghp_6ew0u1nSyx0QwHWB8wRjKl41uWDdEd45e3th~
+import importlib.util
+import subprocess
+import sys
+# 1. Khai báo các thư viện cần thiết
+# Định dạng: {'tên_module_để_import': 'tên_package_trên_pip'}
+REQUIRED_PACKAGES = {
+}
+def check_and_install(packages):
+# Gọi hàm kiểm tra trước khi chạy code chính
+if __name__ == '__main__':;   check_and_install(REQUIRED_PACKAGES)
+python3
+python3 mail.py
+python3 main_ui.py
+python3 main.py
+python main.py
+exit
