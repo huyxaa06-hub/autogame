@@ -1,6 +1,6 @@
 import threading
 import traceback
-# Các thư viện đã được nén sẵn trong APK sẽ hoạt động hoàn hảo ở đây:
+# Các thư viện đã được nén cứng bên trong APK:
 import cv2  # opencv-python
 import numpy as np  # numpy
 import requests  # requests
@@ -11,23 +11,23 @@ from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.scrollview import ScrollView
 
-# Đường dẫn Raw tới file code trên GitHub của bạn
+# Link Raw trỏ chính xác tới kho lưu trữ autogame của bạn trên GitHub
 GITHUB_RAW_URL = (
-    "https://raw.githubusercontent.com/huyxaa06-hub/99999999/main/auto_ui.py"
+    "https://raw.githubusercontent.com/huyxaa06-hub/autogame/main/main.py"
 )
 
 
-class GithubRunnerApp(App):
+class AppWithLibraries(App):
 
   def build(self):
-    self.title = "GitHub Python Runner"
+    self.title = "Python App Shell"
     root = BoxLayout(orientation="vertical", padding=20, spacing=15)
 
-    # Tiêu đề
+    # Tiêu đề giao diện app
     root.add_widget(
         Label(
-            text="APP CHẠY PYTHON TỪ GITHUB",
-            font_size=18,
+            text="APP CHỨA THƯ VIỆN & TẢI CODE GITHUB",
+            font_size=16,
             bold=True,
             color=(0, 1, 0, 1),
             size_hint_y=None,
@@ -37,14 +37,14 @@ class GithubRunnerApp(App):
 
     # Trạng thái
     self.status_label = Label(
-        text="Trạng thái: Sẵn sàng tải và chạy code",
+        text="Trạng thái: Sẵn sàng kết nối",
         font_size=14,
         size_hint_y=None,
         height=30,
     )
     root.add_widget(self.status_label)
 
-    # Nút bấm thực thi
+    # Nút bấm để tải và chạy
     self.run_btn = Button(
         text="Tải & Chạy Code Từ GitHub",
         background_color=(0, 0.7, 1, 1),
@@ -56,10 +56,13 @@ class GithubRunnerApp(App):
     self.run_btn.bind(on_press=self.start_download_and_run)
     root.add_widget(self.run_btn)
 
-    # Khung log hiển thị kết quả
+    # Khung hiển thị log kết quả
     scroll = ScrollView(size_hint=(1, 1))
     self.log_label = Label(
-        text="Bấm nút trên để tải và thực thi script trực tiếp...\n",
+        text=(
+            "App đã tích hợp sẵn: requests, opencv-python, numpy.\nNhấn nút"
+            " bên trên để kéo code từ GitHub và chạy.\n"
+        ),
         size_hint_y=None,
         valign="top",
         halign="left",
@@ -90,11 +93,10 @@ class GithubRunnerApp(App):
 
       if response.status_code == 200:
         script_code = response.text
-        self.log("[+] Tải thành công! Đang thực thi mã nguồn...")
-        self.status_label.text = "Trạng thái: Đang chạy script..."
+        self.log("[+] Tải thành công! Đang thực thi trong app...")
+        self.status_label.text = "Trạng thái: Đang chạy code..."
 
-        # Tạo không gian tên riêng để chạy code tải về
-        # Giúp script GitHub có thể import và dùng ngay requests, cv2, numpy đã có sẵn trong APK
+        # Truyền các thư viện đã nén sẵn trong app vào môi trường chạy code tải về
         global_namespace = {
             "__name__": "__main__",
             "cv2": cv2,
@@ -102,14 +104,14 @@ class GithubRunnerApp(App):
             "requests": requests,
         }
 
-        # Thực thi code Python tải từ GitHub trực tiếp trong bộ nhớ
+        # Thực thi code Python tải từ GitHub ngay lập tức
         exec(script_code, global_namespace)
 
-        self.log("[+] Thực thi script hoàn tất!")
+        self.log("[+] Thực thi code hoàn tất!")
         self.status_label.text = "Trạng thái: Hoàn tất"
       else:
         self.log(f"[-] Lỗi tải file! Mã lỗi HTTP: {response.status_code}")
-        self.status_label.text = "Trạng thái: Lỗi tải từ GitHub"
+        self.status_label.text = "Trạng thái: Lỗi kết nối"
 
     except Exception as e:
       err_trace = traceback.format_exc()
@@ -120,4 +122,4 @@ class GithubRunnerApp(App):
 
 
 if __name__ == "__main__":
-  GithubRunnerApp().run()
+  AppWithLibraries().run()
